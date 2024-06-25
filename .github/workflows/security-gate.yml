@@ -32,13 +32,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifact V4 
-        id: download-artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifact
-          path: ./build-artifact
-
       - name: Download artifact V3
         uses: actions/download-artifact@v3
         with:
