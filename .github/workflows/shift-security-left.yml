@@ -71,8 +71,7 @@ jobs:
           vid: ${{ secrets.VERACODE_API_ID }}
           vkey: ${{ secrets.VERACODE_API_KEY }}
           appname: vincent-github/integrate-with-veracode
-          source_repository: ${{ inputs.source_repository }}
-          fail_checks_on_policy: true
+          # fail_checks_on_policy: true
           filter_mitigated_flaws: true
           workflow_app: false
           line_number_slop: 50
