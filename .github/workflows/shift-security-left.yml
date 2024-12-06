@@ -60,3 +60,17 @@ jobs:
           file: ./veracode-artifact/${{ env.veracode_artifact }}
           fail_build: true
           veracode_policy_name: ${{ steps.get_policy_name.outputs.policy_name }}
+
+      - name: Veracode Pipeline Results
+        if: always()
+        id: prepare-results
+        uses: Veracode/github-actions-integration-helper@allow-for-non-workflow-app
+        with:
+          action: 'preparePipelineResults'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          vid: ${{ secrets.VERACODE_API_ID }}
+          vkey: ${{ secrets.VERACODE_API_KEY }}
+          appname: vincent-github/integrate-with-veracode
+          source_repository: ${{ inputs.source_repository }}
+          fail_checks_on_policy: true
+          filter_mitigated_flaws: true
