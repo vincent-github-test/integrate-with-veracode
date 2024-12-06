@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build Scan Artifact
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-java@v4
@@ -30,7 +30,7 @@ jobs:
   pipeline-scan:
     name: Veracode Pipeline Scan
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Download artifact V4
         uses: actions/download-artifact@v4
@@ -60,3 +60,18 @@ jobs:
           file: ./veracode-artifact/${{ env.veracode_artifact }}
           fail_build: true
           veracode_policy_name: ${{ steps.get_policy_name.outputs.policy_name }}
+
+      - name: Veracode Pipeline Results
+        if: always()
+        id: prepare-results
+        uses: Veracode/github-actions-integration-helper@allow-for-non-workflow-app
+        with:
+          action: 'preparePipelineResults'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          vid: ${{ secrets.VERACODE_API_ID }}
+          vkey: ${{ secrets.VERACODE_API_KEY }}
+          appname: vincent-github/integrate-with-veracode
+          # fail_checks_on_policy: true
+          filter_mitigated_flaws: true
+          workflow_app: false
+          line_number_slop: 50
