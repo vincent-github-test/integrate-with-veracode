@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build Scan Artifact
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-java@v4
@@ -30,7 +30,7 @@ jobs:
   pipeline-scan:
     name: Veracode Pipeline Scan
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Download artifact V4
         uses: actions/download-artifact@v4
@@ -74,3 +74,4 @@ jobs:
           source_repository: ${{ inputs.source_repository }}
           fail_checks_on_policy: true
           filter_mitigated_flaws: true
+          workflow_app: false
