@@ -74,7 +74,9 @@ jobs:
           # pipeline_scan_flaw_filter: all_results # All pipeline scan results
           # pipeline_scan_flaw_filter: policy_violations # Pipeline scan results that violate the security policy
           # pipeline_scan_flaw_filter: unmitigated_results # Pipeline scan results excluding mitigated findings in the platform
-          pipeline_scan_flaw_filter: unmitigated_policy_violations # Pipeline scan results that violate the security policy and are unmitigated
+          # pipeline_scan_flaw_filter: unmitigated_policy_violations # Pipeline scan results that violate the security policy and are unmitigated
+          pipeline_scan_flaw_filter: new_findings # New results in this commit not seen in previous scans
           workflow_app: false
           line_number_slop: 50 # adjust to allow for line number movement
           
+ 
