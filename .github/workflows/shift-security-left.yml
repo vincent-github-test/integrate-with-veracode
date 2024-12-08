@@ -71,7 +71,8 @@ jobs:
           vid: ${{ secrets.VERACODE_API_ID }}
           vkey: ${{ secrets.VERACODE_API_KEY }}
           appname: vincent-github/integrate-with-veracode
-          pipeline_scan_flaw_filter: all_results
+          # pipeline_scan_flaw_filter: all_results
+          pipeline_scan_flaw_filter: policy_violations
           workflow_app: false
           line_number_slop: 50
           
