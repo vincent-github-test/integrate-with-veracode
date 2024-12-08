@@ -43,7 +43,7 @@ jobs:
           artifact_file=$(ls -1 ./veracode-artifact | head -n 1)
           echo "veracode_artifact=$artifact_file" >> $GITHUB_ENV
       - name: Get Veracode Policy Name
-        uses: veracode/workflow-app-helper@main
+        uses: veracode/github-actions-integration-helper@allow-for-non-workflow-app
         id: get_policy_name
         with:
           action: 'getPolicyNameByProfileName'
@@ -64,19 +64,19 @@ jobs:
       - name: Veracode Pipeline Results
         if: always()
         id: prepare-results
-        uses: Veracode/github-actions-integration-helper@allow-for-non-workflow-app
+        uses: veracode/github-actions-integration-helper@allow-for-non-workflow-app
         with:
           action: 'preparePipelineResults'
           token: ${{ secrets.GITHUB_TOKEN }}
           vid: ${{ secrets.VERACODE_API_ID }}
           vkey: ${{ secrets.VERACODE_API_KEY }}
           appname: vincent-github/integrate-with-veracode
-          # pipeline_scan_flaw_filter: all_results # All pipeline scan results
-          # pipeline_scan_flaw_filter: policy_violations # Pipeline scan results that violate the security policy
-          # pipeline_scan_flaw_filter: unmitigated_results # Pipeline scan results excluding mitigated findings in the platform
-          # pipeline_scan_flaw_filter: unmitigated_policy_violations # Pipeline scan results that violate the security policy and are unmitigated
-          # pipeline_scan_flaw_filter: new_findings # New results in this commit not seen in previous scans
-          pipeline_scan_flaw_filter: new_policy_violations # New results in this commit that violate the policy
+          # pipeline_scan_flaw_filter: all_results # Includes all pipeline scan findings, regardless of whether they violate the security policy.
+          # pipeline_scan_flaw_filter: policy_violations # Includes only findings from the pipeline scan that violate the security policy.
+          # pipeline_scan_flaw_filter: unmitigated_results # Excludes mitigated findings on the Veracode platform and includes all remaining findings, regardless of policy violations.
+          pipeline_scan_flaw_filter: unmitigated_policy_violations # Includes only unmitigated findings that violate the security policy.
+          # pipeline_scan_flaw_filter: new_findings # Includes net new findings introduced in this commit, regardless of policy violations, excluding findings from previous scans.
+          # pipeline_scan_flaw_filter: new_policy_violations # Includes net new findings introduced in this commit that violate the security policy, excluding findings from previous scans.
           workflow_app: false
           line_number_slop: 50 # adjust to allow for line number movement
           
