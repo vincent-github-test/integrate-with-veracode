@@ -60,3 +60,18 @@ jobs:
           file: ./veracode-artifact/${{ env.veracode_artifact }}
           fail_build: true
           veracode_policy_name: ${{ steps.get_policy_name.outputs.policy_name }}
+  software-composition-analysis:
+    runs-on: ubuntu-latest
+    name: Veracode Component Analysis
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: veracode/veracode-sca@v2.1.12
+        env:
+          SRCCLR_API_TOKEN: ${{ secrets.VERACODE_AGENT_TOKEN }}
+          JAVA_OPTS: -Xms2g -Xmx4g
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          create-issues: false
+          recursive: true
+          allow-dirty: true
