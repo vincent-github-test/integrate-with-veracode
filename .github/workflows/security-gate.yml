@@ -95,3 +95,4 @@ jobs:
             source: "./"
             format: "json"
             debug: false
+            fail_build: true
