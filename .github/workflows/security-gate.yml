@@ -78,3 +78,20 @@ jobs:
           create-issues: false
           recursive: true
           allow-dirty: true
+
+  veracode-iac-secrets-scan:
+    runs-on: ubuntu-latest
+    name: Veracode IaC/Secrets Scanning
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Veracode IaC/Secrets Scanning
+        uses: veracode/container_iac_secrets_scanning@v1.0.4
+        with:
+            vid: ${{ secrets.VERACODE_API_ID }}
+            vkey: ${{ secrets.VERACODE_API_KEY }}
+            command: "scan" 
+            type: "directory"
+            source: "./"
+            format: "json"
+            debug: false
