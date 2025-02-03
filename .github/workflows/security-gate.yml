@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -62,3 +63,16 @@ jobs:
           #teams: "Team 7, Team 5, Team A"
           # createsandbox: ${{ inputs.createsandbox }}
           # sandboxname: ${{ inputs.sandboxname }}
+  software-composition-analysis:
+    name: Veracode Software Composition Analysis
+    runs-on: ubuntu-latest
+    env:
+      SRCCLR_API_TOKEN: ${{ secrets.VERACODE_AGENT_TOKEN }}
+      JAVA_OPTS: -Xms2g -Xmx4g
+    steps:
+      uses: veracode/veracode-sca@v2.1.12
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        create-issues: false
+        recursive: true
+        allow-dirty: true
